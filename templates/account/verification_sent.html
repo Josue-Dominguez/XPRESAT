@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+
+{% load i18n %}
+
+{% block head_title %}{% trans "Verify Your E-mail Address" %}{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Verify Your E-mail Address" %}</h1>
+
+    <p>{% blocktrans %}Hemos enviado un correo de verificacion, entra al enlace enviado para confirmar tu registro. Si no ves el enlace en la ventana principal, revisa la bandeja de spam, si no ha llegado el correo intenta nuevamente.{% endblocktrans %}</p>
+
+{% endblock %}

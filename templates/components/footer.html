@@ -1,0 +1,22 @@
+{% load static %}
+<div class="mt-auto p-6 text-sm text-gray-500 dark:text-dark-txt">
+    
+    <a href="#">Politicas de privacidad</a>
+    <span>.</span>
+    <a href="#">Terminos y Condiciones</a>
+    <span>.</span>
+    {%comment%}<a href="#">Billing</a>
+    <span>.</span>
+    <a href="#">Subscriptions</a>{%endcomment%}
+    
+    <span>.</span>
+    <a href="#">Universidad de Colima 2023</a>
+    <span>.</span>
+
+    {% if user.is_authenticated %}
+    <a class="hover:underline" href="{% url 'account_logout' %}">Cerrar Sesion</a>
+    {% endif %}
+
+
+    <p class="cursor-default text-xs text-gray-100 dark:text-dark-txt">Sachsen Cob&uumlrg Gotha &copy; 2021</p>
+</div>
