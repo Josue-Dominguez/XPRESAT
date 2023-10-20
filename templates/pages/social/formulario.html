@@ -87,7 +87,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta">Sexo (Biologico)</label>
+            <label for="pregunta">Sexo (Biologico) *</label>
             <div class="option">
                 <input type="radio" id="hombre" name="respuesta" value="si" required>
                 <label for="si">Hombre</label>
@@ -110,7 +110,7 @@ Formulario de
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             <form  action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta">Género</label>
+            <label for="pregunta">Género * </label>
             <div class="option">
                 <input type="radio" id="masc" name="respuesta" value="masculino" required>
                 <label for="masc">Masculino</label>
@@ -126,11 +126,11 @@ Formulario de
         </form>
     </div>
     <div class="container" style="font-weight: bold;">        
-        <h3>Carrera o profesion (u Ocupacion solo si no tienes una carrera ni una profesion</h3>
+        <h3>Carrera o profesion (u Ocupacion solo si no tienes una carrera ni una profesion) *</h3>
         <textarea name="descripcion_caso" rows="1" cols="48"></textarea>
     </div>
     <div class="container" style="font-weight: bold;">        
-        <h3>Edad</h3>
+        <h3>Ingresa tu Edad *</h3>
         <input type="number" id="edad" name="edad" min="10" max="50" style="font-size: 20px;" required>    
     </div>
 
@@ -139,7 +139,7 @@ Formulario de
     <div class="container">
       <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
           {% csrf_token %}
-          <label for="pregunta">Si soy honesto, prefiero una vida agradable, pacífica, sin grandes dificultades, con suficiente sostén financiero.</label>
+          <label for="pregunta">Si soy honesto, prefiero una vida agradable, pacífica, sin grandes dificultades, con suficiente sostén financiero. *</label>
           <div class="option">
               <input type="radio" id="si" name="respuesta" value="si" required>
               <label for="si">Sí</label>
@@ -158,7 +158,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Tengo conceptos definidos acerca de lo que quisiera llegar a ser y en qué me gustaría triunfar y trato con todas mis fuerzas de concretar estas ideas.</label>
+            <label for="pregunta" style="font-weight: bold;">Tengo conceptos definidos acerca de lo que quisiera llegar a ser y en qué me gustaría triunfar y trato con todas mis fuerzas de concretar estas ideas. * </label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -176,7 +176,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Me siento bien solamente en el refugio de un hogar, en el círculo de la familia y quisiera hacer lo posible para procurarles una base igual a los hijos.</label>
+            <label for="pregunta" style="font-weight: bold;">Me siento bien solamente en el refugio de un hogar, en el círculo de la familia y quisiera hacer lo posible para procurarles una base igual a los hijos. * </label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -194,7 +194,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">En mi trabajo profesional, que realizo en la actualidad o para el que me estoy preparando, encuentro mi realización.</label>
+            <label for="pregunta" style="font-weight: bold;">En mi trabajo profesional, que realizo en la actualidad o para el que me estoy preparando, encuentro mi realización. * </label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -212,7 +212,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Tengo compromisos y relaciones con una o más personas, el cumplimiento de los cuales me da satisfacción.</label>
+            <label for="pregunta" style="font-weight: bold;">Tengo compromisos y relaciones con una o más personas, el cumplimiento de los cuales me da satisfacción. * </label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -230,7 +230,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Existe una especialidad que me interesa notablemente sobre la que quisiera aprender cada vez más y de la cual me ocupo en cuanto tengo tiempo.</label>
+            <label for="pregunta" style="font-weight: bold;">Existe una especialidad que me interesa notablemente sobre la que quisiera aprender cada vez más y de la cual me ocupo en cuanto tengo tiempo. *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required> 
                 <label for="si">Sí</label>
@@ -248,7 +248,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Gozo con experiencias de determinada clase (por ejemplo placer en el arte, contemplación de la naturaleza) y no quisiera verme privado de ellas.</label>
+            <label for="pregunta" style="font-weight: bold;">Gozo con experiencias de determinada clase (por ejemplo placer en el arte, contemplación de la naturaleza) y no quisiera verme privado de ellas. *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -266,7 +266,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Creo firmemente en una misión religiosa o política (o una misión de servicio para el progreso) y me pongo a su disposición.</label>
+            <label for="pregunta" style="font-weight: bold;">Creo firmemente en una misión religiosa o política (o una misión de servicio para el progreso) y me pongo a su disposición. *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -284,7 +284,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Mi vida se halla oscurecida por la necesidad, la preocupación, pero me estoy esforzando por mejorar esta situación.</label>
+            <label for="pregunta" style="font-weight: bold;">Mi vida se halla oscurecida por la necesidad, la preocupación, pero me estoy esforzando por mejorar esta situación. *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="si" required>
                 <label for="si">Sí</label>
@@ -304,7 +304,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Sentimientos de rabia porque he pensado que todo lo que realicé hasta ahora ha sido inútil.</label>
+            <label for="pregunta" style="font-weight: bold;">Sentimientos de rabia porque he pensado que todo lo que realicé hasta ahora ha sido inútil. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -322,7 +322,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">El deseo de volver a ser niño y comenzar de nuevo.</label>
+            <label for="pregunta" style="font-weight: bold;">El deseo de volver a ser niño y comenzar de nuevo. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -340,7 +340,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;"> He observado que trato de hacer mi vida más llena de contenido de lo que realmente es para mí mismo y para los demás.</label>
+            <label for="pregunta" style="font-weight: bold;"> He observado que trato de hacer mi vida más llena de contenido de lo que realmente es para mí mismo y para los demás. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -358,7 +358,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST" required>
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">La aversión o rechazo a cargarme con pensamientos profundos y eventualmente incómodos sobre mi actividad.</label>
+            <label for="pregunta" style="font-weight: bold;">La aversión o rechazo a cargarme con pensamientos profundos y eventualmente incómodos sobre mi actividad. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -376,7 +376,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta"style="font-weight: bold;">La esperanza de transformar en un hecho positivo un propósito fallido o una desgracia, poniendo todo mi esfuerzo.</label>
+            <label for="pregunta"style="font-weight: bold;">La esperanza de transformar en un hecho positivo un propósito fallido o una desgracia, poniendo todo mi esfuerzo. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -394,7 +394,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Un impulso de desasosiego que se apodera de mí contrariando mi buen juicio, y que atrae una torturante falta de interés en todo lo que me brinda.</label>
+            <label for="pregunta" style="font-weight: bold;">Un impulso de desasosiego que se apodera de mí contrariando mi buen juicio, y que atrae una torturante falta de interés en todo lo que me brinda. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -412,7 +412,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">El pensamiento de que, ante la muerte, tendría que admitir que no valió la pena vivir.</label>
+            <label for="pregunta" style="font-weight: bold;">El pensamiento de que, ante la muerte, tendría que admitir que no valió la pena vivir. *</label>
             <div class="option">
                 <input type="radio" id="frec" name="respuesta" value="frecuentemente" required>
                 <label for="frec">Frecuentemente</label>
@@ -443,7 +443,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Indique cuál de las tres personas es más feliz.</label>
+            <label for="pregunta" style="font-weight: bold;">Indique cuál de las tres personas es más feliz. *</label>
             <div class="option">
                 <input type="radio" id="a" name="respuesta" value="opc_a" required>
                 <label for="a">a)</label>
@@ -462,7 +462,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Indique cuál de las tres personas sufre mas.</label>
+            <label for="pregunta" style="font-weight: bold;">Indique cuál de las tres personas sufre mas. *</label>
             <div class="option">
                 <input type="radio" id="a" name="respuesta" value="opc_a" required>
                 <label for="a">a)</label>
@@ -492,7 +492,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Espero el futuro con esperanza y entusiasmo</label>
+            <label for="pregunta" style="font-weight: bold;">Espero el futuro con esperanza y entusiasmo *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -507,7 +507,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Bien podría rendirme, porque no puedo hacer mejor las cosas por mí mismo</label>
+            <label for="pregunta" style="font-weight: bold;">Bien podría rendirme, porque no puedo hacer mejor las cosas por mí mismo *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -522,7 +522,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Cuando las cosas van mal, me ayuda saber que no pueden permanecer así por siempre</label>
+            <label for="pregunta" style="font-weight: bold;">Cuando las cosas van mal, me ayuda saber que no pueden permanecer así por siempre *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required> 
                 <label for="verd">Verdadero</label>
@@ -537,7 +537,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">No puedo imaginar cómo sería mi vida en 10 años</label>
+            <label for="pregunta" style="font-weight: bold;">No puedo imaginar cómo sería mi vida en 10 años *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -552,7 +552,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Tengo suficiente tiempo para lograr las cosas que más quiero hacer</label>
+            <label for="pregunta" style="font-weight: bold;">Tengo suficiente tiempo para lograr las cosas que más quiero hacer *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -567,7 +567,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">En el futuro, espero tener éxito en lo que más me preocupa</label>
+            <label for="pregunta" style="font-weight: bold;">En el futuro, espero tener éxito en lo que más me preocupa *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -582,7 +582,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Mi futuro me parece oscuro</label>
+            <label for="pregunta" style="font-weight: bold;">Mi futuro me parece oscuro *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -597,7 +597,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Espero conseguir más de las cosas buenas de la vida que la persona promedio</label>
+            <label for="pregunta" style="font-weight: bold;">Espero conseguir más de las cosas buenas de la vida que la persona promedio *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -612,7 +612,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Simplemente no consigo buenas oportunidades y no hay razón para creer que las conseguiré en el futuro</label>
+            <label for="pregunta" style="font-weight: bold;">Simplemente no consigo buenas oportunidades y no hay razón para creer que las conseguiré en el futuro *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -627,7 +627,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Mis experiencias pasadas me han preparado bien para mi futuro</label>
+            <label for="pregunta" style="font-weight: bold;">Mis experiencias pasadas me han preparado bien para mi futuro *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -642,7 +642,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">No espero conseguir lo que realmente quiero</label>
+            <label for="pregunta" style="font-weight: bold;">No espero conseguir lo que realmente quiero *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -657,7 +657,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Cuando miro hacia el futuro espero que seré más feliz de lo que soy ahora</label>
+            <label for="pregunta" style="font-weight: bold;">Cuando miro hacia el futuro espero que seré más feliz de lo que soy ahora *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -672,7 +672,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Las cosas simplemente no funcionarán como yo quiero</label>
+            <label for="pregunta" style="font-weight: bold;">Las cosas simplemente no funcionarán como yo quiero *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -687,7 +687,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Tengo una gran fe en el futuro</label>
+            <label for="pregunta" style="font-weight: bold;">Tengo una gran fe en el futuro *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -702,7 +702,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Nunca consigo lo que quiero, así que es tonto querer algo</label>
+            <label for="pregunta" style="font-weight: bold;">Nunca consigo lo que quiero, así que es tonto querer algo *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -717,7 +717,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Es muy improbable que obtenga una satisfacción real en el futuro</label>
+            <label for="pregunta" style="font-weight: bold;">Es muy improbable que obtenga una satisfacción real en el futuro *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -732,7 +732,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">El futuro me parece vago e incierto</label>
+            <label for="pregunta" style="font-weight: bold;">El futuro me parece vago e incierto *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -747,7 +747,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">Puedo esperar más buenos momentos que malos momentos</label>
+            <label for="pregunta" style="font-weight: bold;">Puedo esperar más buenos momentos que malos momentos *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -762,7 +762,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">No sirve de nada tratar de obtener algo que quiera, porque probablemente no lo obtendré</label>
+            <label for="pregunta" style="font-weight: bold;">No sirve de nada tratar de obtener algo que quiera, porque probablemente no lo obtendré *</label>
             <div class="option">
                 <input type="radio" id="verd" name="respuesta" value="verdadero" required>
                 <label for="verd">Verdadero</label>
@@ -777,7 +777,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">¿Has sentido alguna vez que tu vida es vacía o que no tiene sentido?</label>
+            <label for="pregunta" style="font-weight: bold;">¿Has sentido alguna vez que tu vida es vacía o que no tiene sentido? *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="opc_si" required>
                 <label for="si">Si</label>
@@ -797,7 +797,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">¿Has pensado que tu vida no vale la pena?</label>
+            <label for="pregunta" style="font-weight: bold;">¿Has pensado que tu vida no vale la pena? *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="opc_si" required>
                 <label for="si">Si</label>
@@ -817,7 +817,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">¿Has deseado alguna vez estar muerto?</label>
+            <label for="pregunta" style="font-weight: bold;">¿Has deseado alguna vez estar muerto? *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="opc_si" required>
                 <label for="si">Si</label>
@@ -837,7 +837,7 @@ Formulario de
     <div class="container">
         <form id="miFormulario" action="{% url 'social:encuesta_view' %}" method="POST">
             {% csrf_token %}
-            <label for="pregunta" style="font-weight: bold;">¿Has pensado alguna vez en terminar con tu vida?</label>
+            <label for="pregunta" style="font-weight: bold;">¿Has pensado alguna vez en terminar con tu vida? *</label>
             <div class="option">
                 <input type="radio" id="si" name="respuesta" value="opc_si" required>
                 <label for="si">Si</label>
@@ -856,8 +856,7 @@ Formulario de
 </body>
 </form>
 </html>
-<input type="submit" value="Enviar Respuesta"> 
-<button class="boton" onclick="enviarFormulario()">Ir a la página principal</button>
+<button class="boton" onclick="enviarFormulario()">Enviar respuestas y regresar a la página principal</button>
 
     <script>
         function enviarFormulario() {
@@ -873,7 +872,6 @@ Formulario de
                     break;
                 }
             }
-
             if (tieneValor) {
                 // Si hay al menos un input o textarea con valor, enviar el formulario
                 formulario.submit();

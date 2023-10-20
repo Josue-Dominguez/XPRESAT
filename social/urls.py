@@ -15,7 +15,8 @@ from .views import (
     AddCommentLike,
     SharedPostView,
     EncuestaView,
-    LogoutView
+    LogoutView, 
+    PublicacionesRecientesView
     )
 
 
@@ -28,6 +29,8 @@ urlpatterns = [
     path('post/edit/<int:pk>/', PostEditView.as_view(), name="post-edit"),
     path('post/delete/<int:pk>', PostDeleteView.as_view(), name="post-delete"),
     path('post/report/<int:pk>', PostReportView.as_view(), name="post-report"),
+
+     path('publicaciones_recientes/', PublicacionesRecientesView.as_view(), name='publicaciones_recientes'),
 
     path('post/<int:pk>/like', AddLike.as_view(), name='like'),
     path('post/<int:pk>/dislike', AddDislike.as_view(), name='dislike'),

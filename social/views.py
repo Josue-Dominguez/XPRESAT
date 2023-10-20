@@ -11,7 +11,18 @@ from .forms import EncuestaForm
 from django.contrib.auth import logout
 from django.contrib import messages
 from django.views import View
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
+
+class PublicacionesRecientesView(LoginRequiredMixin, View):
+    template_name = 'pages/social/publicaciones_recientes.html'
+    #login_url = '/tu-pagina-de-login/'  # Reemplaza con tu URL de página de inicio de sesión
+
+    def get(self, request, *args, **kwargs):
+        # Obtén las publicaciones recientes del usuario actual
+        publicaciones_recientes = SocialPost.objects.filter(author=request.user).order_by('-created_on')[:10]
+        return render(request, self.template_name, {'publicaciones_recientes': publicaciones_recientes})
 
 class LogoutView(View):
     template_name = 'account/logout.html'
