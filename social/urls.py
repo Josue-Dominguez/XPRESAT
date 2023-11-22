@@ -1,6 +1,6 @@
 from django.urls import path 
 from django.contrib.auth import views as auth_views
-#from . import views
+from . import views
 from .views import (
     PostDeleteView, 
     PostDetailView, 
@@ -23,6 +23,7 @@ from .views import (
 app_name="social"
 
 urlpatterns = [
+    path('train_model/', views.TrainModelView.as_view()),
     path('encuesta/', EncuestaView.as_view(), name="encuesta_view"),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('post/<int:pk>/', PostDetailView.as_view(), name="post-detail"),

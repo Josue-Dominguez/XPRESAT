@@ -12,8 +12,32 @@ from django.contrib.auth import logout
 from django.contrib import messages
 from django.views import View
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+
 
 # Create your views here.
+class TrainModelView(View):
+    def get(self, request):
+        # Obtiene el modelo
+        model = MyModel()
+
+        # Obtiene el conjunto de datos
+        data, labels = get_dataset()
+
+        # Entrena el modelo
+        train_model(model, data, labels)
+
+        # Redirige al usuario a la página principal
+        return HttpResponseRedirect('/')
+
+
+
+class SearchView(View):
+  def get(self, request):
+    search_term = request.GET.get('search', '')
+    users = User.objects.filter(name__icontains=search_term)
+    return render(request, 'users.html', {'users': users})
+
 
 class PublicacionesRecientesView(LoginRequiredMixin, View):
     template_name = 'pages/social/publicaciones_recientes.html'

@@ -1,3 +1,4 @@
+import torch
 from multiprocessing import context
 from social.models import Image, SocialPost, SocialComment
 from django.views.generic import TemplateView, View
@@ -6,8 +7,29 @@ from django.core.paginator import Paginator
 from django.contrib.auth.mixins import UserPassesTestMixin, LoginRequiredMixin
 from social.forms import SocialPostForm, ShareForm
 from django.db.models import Q
+from django.http import HttpResponseRedirect
+import numpy as np
+from .mytorchmodel import train_and_save_model
+from django.conf import settings
+
+
+
+def train_model(request):
+    # Asegúrate de que solo un usuario autorizado pueda iniciar el entrenamiento
+    if not request.user.is_authenticated:
+        return redirect('login')  # O alguna otra respuesta adecuada
+
+    # Llamamos a la función train_and_save_model con los parámetros necesarios
+    train_and_save_model(request.user, settings.MODEL_PATH, settings.LEARNING_RATE, settings.EPOCHS)
+
+    # Devuelve una respuesta HTTP, por ejemplo, redirigir a la página de inicio
+    return redirect('home')
+
 
 class HomeView(LoginRequiredMixin, View):
+    def __init__(self):
+        super().__init__()
+
     def get(self, request, *args, **kwargs):
         logged_in_user=request.user
 
@@ -50,4 +72,3 @@ class HomeView(LoginRequiredMixin, View):
             'share_form': share_form
         }
         return render(request, 'pages/index.html', context)
-

@@ -14,11 +14,20 @@ from pathlib import Path
 import os
 import environ
 import django
+import torch
 
 env = environ.Env()
 environ.Env.read_env()
 
 ENVIROMENT = env
+
+#Define los parametros de entrenamiento
+LEARNING_RATE = 0.001
+EPOCHS = 100
+
+#Define la ruta al archivo del modelo
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+MODEL_PATH = os.path.join(BASE_DIR, "model.pth")
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.

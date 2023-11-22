@@ -4,15 +4,20 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from .views import HomeView
+from . import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('users/', include('accounts.urls', namespace='users')),
     path('social/', include('social.urls', namespace='social')),
+    path('train_model/', views.train_model, name='train_model'),
+
 
 
     path('', HomeView.as_view(), name="home"),
+    #path('search/', SearchView.as_view()),
+
 
 ]
 
