@@ -1,0 +1,8 @@
+{% load account %}
+{% load i18n %}
+{% user_display user as name %}
+{% blocktrans %}
+Bienvenido a XPRESAT {{name}}.{{ '\n' }}
+{{ '\n' }}
+Si eres un usuario nuevo deberás de ir a nuestro formulario y contestarlo.
+{% endblocktrans %}

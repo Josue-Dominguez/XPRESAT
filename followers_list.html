@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load tailwind_tags %}
+{% load tailwind_filters %}
+
+{% block title %}{{user.username}} Details{% endblock title %}
+{% block extra_head %}{% endblock extra_head %}
+
+<!-- NAVBAR -->
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+
+
+<!-- MAIN -->
+<!-- left sidebar -->
+{% block left_sidebar %}
+{% include 'components/sidebars/left/sidebar.html' %}
+{% endblock left_sidebar %}
+
+<!-- main content -->
+{% block content %}
+<div class="bg-white max-w-full dark:bg-dark-second shadow px-4 py-5 sm:rounded-lg sm:p-6">
+
+    <div class="bg-white dark:bg-dark-third max-w-full px-4 py-5 border-b rounded-lg mb-2 dark:border-dark-second border-gray-200 sm:px-6">
+        
+        <h3 class="text-xl leading-6 cursor-default dark:text-dark-txt prose rounded font-bold text-gray-900">
+        Seguidores de {{profile.user.username}}
+        </h3>
+
+        <p class="mt-1 text-sm cursor-default dark:text-dark-txt text-gray-500">
+            Aqui se muestra la gente que te sigue a ti
+            <span class="font-bold">visita su perfil de cada uno</span>
+        </p>
+    </div>
+
+
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="container mx-auto px-4">
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for follower in followers %}
+            <li class="col-span-1 flex flex-col items-center bg-white rounded-lg shadow p-4">
+                {% if follower.picture %}
+                    <img class="w-24 h-24 rounded-full object-cover" src="{{ follower.picture.url }}" alt="{{ follower.username }}">
+                {% else %}
+                    <!-- Inline SVG for default user icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
+                {% endif %}
+                <h3 class="mt-4 font-bold text-gray-900">{{ follower.username }}</h3>
+                <a href="{% url 'users:profile' username=follower.username %}" class="mt-2 text-blue-600 hover:text-blue-800 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+</div>
+
+
+
+
+<!--PAGINATION-->
+<nav class="px-4 flex items-center justify-between sm:px-0">
+    {% if followers.has_previous %}
+    <div class="-mt-px w-0 flex-1 flex">
+        <a href="?page={{ followers.previous_page_number }}" class="border-t-2 border-transparent pt-4 pr-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+        <!-- Heroicon name: solid/arrow-narrow-left -->
+        <svg class="mr-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M7.707 14.707a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l2.293 2.293a1 1 0 010 1.414z" clip-rule="evenodd" />
+        </svg>
+        Previous
+        </a>
+    </div>
+    {% endif %}
+    
+    {% if follower in followers %}
+    {% for i in followers.paginator.page_range %}
+        {% if followers.number == i %}        
+        <div class="cursor-default border-indigo-500 text-indigo-600 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium" aria-current="page">
+        {{i}}
+        </div>
+        {% else %}
+        <a href="?page={{ i }}" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 border-t-2 pt-4 px-4 inline-flex items-center text-sm font-medium">
+        {{i}}
+        </a>
+        {% endif %}
+    {% endfor %}
+    {% endif %}
+
+    {% if followers.has_next %}
+    <div class="-mt-px w-0 flex-1 flex justify-end">
+        <a href="?page={{ followers.next_page_number }}" class="border-t-2 border-transparent pt-4 pl-1 inline-flex items-center text-sm font-medium text-gray-500 hover:text-gray-700 hover:border-gray-300">
+        Next
+        <!-- Heroicon name: solid/arrow-narrow-right -->
+        <svg class="ml-3 h-5 w-5 text-gray-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+        </svg>
+        </a>
+    </div>
+    {% endif %}
+</nav>
+<!--/END PAGINATION-->
+
+{% endblock content %}
+
+<!-- right content -->
+{% block right_sidebar %}
+{% endblock right_sidebar %}
+
+
+<!-- FOOTER -->
+{% block footer %}
+
+{% endblock footer %}
+
+
+{% block javascript %}{% endblock javascript %}

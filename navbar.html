@@ -1,0 +1,182 @@
+{% load static %}
+<nav class="bg-blue-500 dark:bg-dark-second h-max md:h-14 w-full shadow flex flex-col md:flex-row items-center justify-center md:justify-between fixed top-0 z-50 border-b dark:border-dark-third">
+    <!-- LEFT NAV -->
+    <div class="flex items-center justify-between w-full md:w-max px-4 py-2">
+        <a href="#" class="mr-2 hidden md:inline-block">
+            <img src="{% static 'img/logo4.png' %}" alt="Expresate logo" class="w-20 sm:w-20 lg:w-10 h-auto">
+        </a>
+        <a href="#" class="inline-block md:hidden hover:bg-blue-900">
+            <img src="{% static 'img/logo4.png' %}" alt="" class="w-32 h-auto">
+        </a>
+        <div class="flex items-center justify-between space-x-1">
+            {% if not user.is_authenticated %}
+            <a href="{% url 'account_login' %}" class="inline-flex items-center justify-center text-white md:hidden p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
+                <span class="mx-2 font-semibold dark:text-dark-txt">Iniciar sesion</span>
+            </a>
+            <a href="{% url 'account_signup' %}" class="inline-flex items-center justify-center md:hidden p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
+                <span class="mx-2 font-semibold dark:text-dark-txt">Crear una cuenta</span>
+            </a>
+             {% else %}
+
+            <form method="GET" action="{% url "social:profile-search" %}" class="mt-4 relative bg-gray-100 dark:bg-dark-third px-2 py-2 w-10 h-10 sm:w-11 sm:h-11 lg:h-10 lg:w-10 xl:w-max xl:pl-3 xl:pr-8 rounded-full flex items-center justify-center cursor-pointer">
+                <button type="submit" class='bx bx-search-alt-2 text-xl xl:mr-2 dark:text-dark-txt'></button>
+                <input name="query" value="{{ request.GET.query }}" type="text" placeholder="Buscar  Usuarios" class="outline-none border-none bg-transparent hidden xl:inline-block">
+            </form>
+
+            <div class="text-2xl grid place-items-center md:hidden bg-gray-200 dark:bg-dark-third rounded-full w-10 h-10 cursor-pointer hover:bg-gray-300 dark:text-dark-txt">
+                <i class='bx bxl-messenger'></i>
+            </div>
+            <div href="{% url 'users:edit-profile' %}"class="text-2xl grid place-items-center md:hidden bg-gray-200 dark:bg-dark-third rounded-full w-10 h-10 cursor-pointer hover:bg-gray-300 dark:text-dark-txt" id="dark-mode-toggle-mb">
+                <a{% url 'users:edit-profile' %}></a>
+                <i class='bx bx-menu'></i>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <!-- END LEFT NAV -->
+
+    <!-- MAIN NAV -->
+    <ul x-data="{ open: false }" class="flex w-full lg:w-max items-center justify-center">
+        <li class="w-1/5 md:w-max text-center">
+            <a href="{% url 'home' %}" class="w-full text-3xl py-2 px-3 xl:px-12 cursor-pointer text-center hover:bg-blue-900 inline-block text-white border-b-4 border-white">
+                <i class='bx bx-home'></i>
+            </a>
+        </li>
+        {% if request.user.is_authenticated %}
+            <li class="w-1/5 md:w-max text-center">
+                <a href="{% url 'accounts:followers-list' pk=request.user.profile.pk %}" class="w-full text-3xl py-2 text-white hover:bg-blue-900 px-3 xl:px-12 ">
+                    <i class='bx bxs-user-check'></i>
+                </a>
+            </li>
+        {% endif %}
+
+
+        {% if request.user.is_authenticated%}        
+            <li class="w-1/5 md:w-max text-center">
+                <a href="#" class="w-full text-3xl py-2 px-3 text-white hover:bg-blue-900 xl:px-12">
+                    <i class='bx bxs-bell'></i>
+                </a>
+            </li>
+        {% endif %}
+
+        {%comment%}<li class="w-1/5 md:w-max text-center hidden md:inline-block">
+            <button @click="open=true" class="w-full text-3xl py-2 px-3 xl:px-12 cursor-pointer text-center inline-block rounded text-gray-600 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt relative">
+                <i class='bx bx-menu'></i>
+            </button>
+        </li>
+        <li class="w-1/5 md:w-max text-center inline-block md:hidden">
+            <button @click="open=true" class="w-full text-3xl py-2 px-3 xl:px-12 cursor-pointer text-center inline-block rounded text-gray-600 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt relative">
+                <i class='bx bx-menu'></i>
+            </button>
+        </li>{%endcomment%}
+        
+                <!--LEFT Mobile Sidebar-->
+                
+  <!--LEFT Mobile Sidebar-->
+        {%comment%}<div @keydown.window.escape="open = false" x-show="open" aria-labelledby="slide-over-title" x-ref="dialog" aria-modal="true" 
+                class="fixed z-10 inset-0 overflow-auto xl:hidden ">
+            <div class="absolute inset-0 overflow-hidden">
+                
+                <div x-description="Background overlay, show/hide based on slide-over state." class="absolute inset-0" @click="open = false" aria-hidden="true"></div>
+
+                <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex ">
+                
+                    <div x-show="open" @click.away="open = false"  class="w-screen max-w-md" x-description="Slide-over panel, show/hide based on slide-over state.">
+                        <div class="h-full flex flex-col py-6 bg-white dark:bg-dark-second shadow-xl overflow-y-scroll scrollbar-hide">
+                            <div class="px-4 sm:px-6">
+                                <div class="flex items-start justify-between">
+                                    <h2 class="text-lg font-medium dark:text-gray-500 text-gray-900" id="slide-over-title">
+                                    Menu
+                                    </h2>
+                                    <div class="ml-3 h-7 flex items-center">
+                                    <button class="bg-white dark:bg-dark-third rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" @click="open = false">
+                                        <span class="sr-only">Close panel</span>
+                                        <svg class="h-6 w-6" x-description="Heroicon name: outline/x" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="mt-6 relative flex-1 px-4 sm:px-6">
+                                <!-- Replace with your content -->
+                                
+                                <!--Menu Items-->
+                                {% include 'components/sidebars/left/items.html' %}
+                               
+
+                                {% include 'components/footer.html' %}
+                                
+                                <!-- /End replace -->
+                            </div>
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+        </div>{%endcomment%}
+    </ul>
+    <!-- END MAIN NAV -->
+
+    <!-- RIGHT NAV -->
+    <ul class="hidden md:flex mx-4 items-center justify-center">
+        {% if not user.is_authenticated %}
+            <a href="{% url 'account_login' %}" class="inline-flex items-center justify-center p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
+                <span class="mx-2 font-semibold dark:text-dark-txt">Iniciar sesion</span>
+            </a>
+            <a href="{% url 'account_signup' %}" class="inline-flex items-center justify-center p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
+                <span class="mx-2 font-semibold dark:text-dark-txt">Crear una cuenta</span>
+            </a>
+        {% else %}
+
+        <li>
+            <div class="text-xl hidden xl:grid place-items-center text-white dark:bg-dark-third dark:text-dark-txt rounded-full mx-1 p-1 cursor-pointer hover:bg-blue-900 relative">
+                <i class='bx bxs-message-rounded-dots'></i>
+                <span class="text-xs absolute top-1 right-1  text-white font-semibold rounded-full px-1 text-center">0</span>
+            </div>
+        </li>
+        </li>
+        <!--Usuario en navbar-->
+        <li class="h-full hidden xl:flex">
+            <a href="{% url 'users:profile' user.username %}" class="inline-flex items-center justify-center p-1 rounded-full hover:bg-blue-900 dark:hover:bg-dark-third mx-1">
+                <img src="{{user.profile.picture.url}}" alt="Profile picture" class="rounded-full h-7 w-7">
+                <span class="mx-2 font-semibold text-white dark:text-dark-txt">{{user.username}}</span>
+            </a>
+        </li>
+        {%comment%}<li>
+            <div class="text-xl grid place-items-center bg-gray-200 dark:bg-dark-third dark:text-dark-txt rounded-full mx-1 p-3 cursor-pointer hover:bg-gray-300 relative" id="dark-mode-toggle">
+                <i class='bx bx-log-out'></i>
+            </div>
+        </li>{%endcomment%}
+        <li>
+            <div x-data="{open:false}">
+            <div @click="open=true" class="text-xl grid place-items-center text-white dark:bg-dark-second rounded-full mx-1 p-1  dark:bg-dark-third dark:text-dark-txt  cursor-pointer hover:bg-blue-900 relctive">
+                <i class='bx bx-menu'></i>
+                {%comment%}<span class="text-xs absolute top-0 right-0 bg-red-500 text-white font-semibold rounded-full px-1 text-center">Menu</span>{%endcomment%}
+            </div>
+
+                {% if user.is_authenticated %}
+                  <div x-show="open" x-transition:enter="ease-out duration-300" 
+                  x-transition:enter-start="opacity-0" 
+                  x-transition:enter-end="opacity-100" 
+                  x-transition:leave="ease-in duration-200" 
+                  x-transition:leave-start="opacity-100" 
+                  x-transition:leave-end="opacity-0"  @click.away="open=false" class="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg dark:bg-dark-second bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
+                    <div class="py-1" role="none">
+                    <!-- Active: "bg-gray-100 text-gray-900", Not Active: "text-gray-700" -->
+                    <a href="{% url 'users:edit-profile' %}" class="text-gray-700 dark:text-dark-txt cursor-pointer hover:bg-blue-200 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Configuracion del perfil</a>
+                    <!--<form method="POST" action="#" role="none">-->
+                    <a href="{% url 'social:logout' %}" class="text-gray-700 dark:text-dark-txt cursor-pointer hover:bg-blue-200 block px-4 py-2 text-sm" role="menuitem" tabindex="-1" id="menu-item-0">Cerrar Sesion</a>
+                    </div>
+                    </div>
+                {% endif %}
+              
+            </div>
+
+        </li>
+        {% endif %}
+    </ul>
+    <!-- END RIGHT NAV -->
+  
+</nav>
