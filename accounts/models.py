@@ -56,6 +56,16 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.username
+    
+    def add_friend(self, profile):
+        """ Añade un amigo al perfil del usuario """
+        self.friends.add(profile)
+        profile.friends.add(self)
+
+    def remove_friend(self, profile):
+        """ Remueve un amigo del perfil del usuario """
+        self.friends.remove(profile)
+        profile.friends.remove(self)
 
 
 def create_user_profile(sender, instance, created, **kwargs):
@@ -69,3 +79,4 @@ def save_user_profile(sender, instance, **kwargs):
 post_save.connect(create_user_profile, sender=User)
 # saved created profile
 post_save.connect(save_user_profile, sender=User)
+

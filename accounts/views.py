@@ -9,7 +9,31 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.template import loader
 from django.http import HttpResponse
+from .models import User
+from notifications.signals import notify
+from notifications.models import Notification
+
 # Create your views here.
+
+class NotificationView(LoginRequiredMixin, TemplateView):
+    template_name = 'pages/social/notifications.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['notifications'] = self.request.user.notifications.unread()
+        return context
+
+def mark_as_read(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, recipient=request.user)
+    notification.mark_as_read()
+    return redirect('accounts:notifications')  # Asegúrate de usar el nombre correcto de la URL aquí
+
+def notifications(request):
+    user_notifications = request.user.notifications.unread()
+    # Aquí podrías tener lógica para marcar las notificaciones como leídas si es lo que deseas.
+    return render(request, 'notifications.html', {'notifications': user_notifications})
+
+
 
 @login_required
 def UserProfileView(request, username):
@@ -105,3 +129,4 @@ class ListFollowers(View):
         }
 
         return render(request, 'pages/social/followers_list.html', context)
+    
