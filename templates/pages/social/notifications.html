@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+{% load tailwind_tags %}
+{% load tailwind_filters %}
+
+{% block title %}Notificaciones{% endblock title %}
+{% block extra_head %}{% endblock extra_head %}
+
+<!-- NAVBAR -->
+{% block navbar %}
+{% include 'components/navbar.html' %}
+{% endblock navbar %}
+<!-- LEFT SIDEBAR -->
+{% block left_sidebar %}
+{% include 'components/sidebars/left/sidebar.html' %}
+{% endblock left_sidebar %}
+
+<!-- MAIN CONTENT -->
+{% block content %}
+<div class="container mx-auto flex">
+    <!-- MAIN CONTENT -->
+    <main class="flex-1">
+        <div class="bg-white shadow overflow-hidden sm:rounded-lg p-4">
+            <div class="px-4 py-5 sm:px-6 border-b">
+                <h3 class="text-lg leading-6 font-medium text-gray-900">
+                    Notificaciones
+                </h3>
+                <p class="mt-1 max-w-2xl text-sm text-gray-500">
+                    Aquí puedes ver las últimas actividades de las personas que sigues.
+                </p>
+            </div>
+            <ul class="divide-y divide-gray-200">
+                {% for notification in request.user.notifications.unread %}
+                <li class="p-4 hover:bg-gray-50">
+                    <div class="flex items-center space-x-4">
+                        <div class="flex-shrink-0">
+                            <!-- Puedes incluir un ícono o imagen representativa de la notificación -->
+                            <img class="h-8 w-8 rounded-full" src="{{ notification.actor.profile.get_avatar_url }}" alt="">
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <!-- Descripción de la notificación -->
+                            <p class="text-sm text-gray-900 truncate">
+                                {{ notification.actor.username }}: {{ notification.verb }}
+                                {% if notification.target %}
+                                    en tu publicación "{{ notification.target }}"
+                                {% endif %}
+                            </p>
+                            <!-- Fecha de la notificación -->
+                            <p class="text-sm text-gray-500">
+                                {{ notification.timestamp|naturaltime }}
+                            </p>
+                        </div>
+                        <!-- Puedes incluir un botón para marcar la notificación como leída -->
+                        <div>
+                            <a href="{% url 'accounts:mark_as_read' notification.pk %}" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                Marcar como leída
+                            </a>                            
+                        </div>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="p-4 text-center text-gray-500">
+                    No tienes notificaciones nuevas.
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </main>
+</div>
+{% endblock content %}

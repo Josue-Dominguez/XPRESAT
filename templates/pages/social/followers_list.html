@@ -25,51 +25,40 @@
     <div class="bg-white dark:bg-dark-third max-w-full px-4 py-5 border-b rounded-lg mb-2 dark:border-dark-second border-gray-200 sm:px-6">
         
         <h3 class="text-xl leading-6 cursor-default dark:text-dark-txt prose rounded font-bold text-gray-900">
-        {{profile.user.username}} Amigos
+        Seguidores de {{profile.user.username}}
         </h3>
 
         <p class="mt-1 text-sm cursor-default dark:text-dark-txt text-gray-500">
-        Gente que sigue a {{profile.user.username}}. Sigue a este usuario para ver sus publicaciones, agregalo como amigo para interactuar con el
+            Aqui se muestra la gente que te sigue a ti
+            <span class="font-bold">visita su perfil de cada uno</span>
         </p>
     </div>
 
-    <ul class="grid grid-cols-2 gap-6 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-    {% for follower in followers %}
-        <li class="col-span-1 flex flex-col text-center dark:bg-dark-main bg-white rounded-lg shadow ">
-            <div class="flex-1 flex flex-col p-8">
-            {% if follower.picture %}
-                <img class="w-32 h-32 flex-shrink-0 mx-auto dark:bg-dark-second bg-white rounded-full" src="{{follower.profile.picture.url}}" alt="">
-            {% else %}
-                <img class="w-32 h-32 flex-shrink-0 mx-auto dark:bg-dark-second bg-white rounded-full" src="{% static 'user_default_profile.png' %}" alt="">
-            {% endif %}
-                <h3 class="mt-6 dark:text-dark-txt text-gray-900 cursor-default text-lg font-bold prose">{{follower.profile.user.username}}</h3>
-            </div>
 
-            <div >
-                <div class="-mt-px flex divide-x dark:divide-dark-second divide-gray-200">
-                    <div class="w-0 flex-1 flex">
-                        <a href="{% url 'users:profile' username=follower.profile.user.username %}" class="dark:hover:bg-dark-second relative -mr-px w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-bl-lg hover:text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                            </svg>
-                        </a>
-                    </div>
-                    
-                    {% comment %} <div class="-ml-px w-0 flex-1 flex">
-                        <a href="#" class="dark:hover:bg-dark-second relative w-0 flex-1 inline-flex items-center justify-center py-4 text-sm text-gray-700 font-medium border border-transparent rounded-br-lg hover:text-gray-500">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-                            </svg>
-                        </a>
-                    </div> {% endcomment %}
-                </div>
-            </div>
-        </li>
-    {% endfor %}
+<!-- This example requires Tailwind CSS v2.0+ -->
+<div class="container mx-auto px-4">
+    <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+        {% for follower in followers %}
+            <li class="col-span-1 flex flex-col items-center bg-white rounded-lg shadow p-4">
+                {% if follower.picture %}
+                    <img class="w-24 h-24 rounded-full object-cover" src="{{ follower.picture.url }}" alt="{{ follower.username }}">
+                {% else %}
+                    <!-- Inline SVG for default user icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" style="fill: rgba(0, 0, 0, 1);transform: ;msFilter:;"><path d="M7.5 6.5C7.5 8.981 9.519 11 12 11s4.5-2.019 4.5-4.5S14.481 2 12 2 7.5 4.019 7.5 6.5zM20 21h1v-1c0-3.859-3.141-7-7-7h-4c-3.86 0-7 3.141-7 7v1h17z"></path></svg>
+                {% endif %}
+                <h3 class="mt-4 font-bold text-gray-900">{{ follower.username }}</h3>
+                <a href="{% url 'users:profile' username=follower.username %}" class="mt-2 text-blue-600 hover:text-blue-800 text-sm">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                    </svg>
+                </a>
+            </li>
+        {% endfor %}
     </ul>
-  
 </div>
+
+
 
 
 <!--PAGINATION-->
