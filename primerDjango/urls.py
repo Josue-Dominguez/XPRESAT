@@ -11,13 +11,13 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('users/', include('accounts.urls', namespace='users')),
     path('social/', include('social.urls', namespace='social')),
-    path('train_model/', views.train_model, name='train_model'),
+    
 
-
+    #path('ruta-para-publicar/', views.mi_vista, name='mi-vista'),
 
     path('', HomeView.as_view(), name="home"),
-    #path('search/', SearchView.as_view()),
 
+    #path('notifications/', NotificationView.as_view(), name='notifications'),
 
 ]
 

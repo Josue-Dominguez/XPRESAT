@@ -9,21 +9,11 @@ from social.forms import SocialPostForm, ShareForm
 from django.db.models import Q
 from django.http import HttpResponseRedirect
 import numpy as np
-from .mytorchmodel import train_and_save_model
 from django.conf import settings
+from .algoritmo import modelo
+from notifications.signals import notify
 
 
-
-def train_model(request):
-    # Asegúrate de que solo un usuario autorizado pueda iniciar el entrenamiento
-    if not request.user.is_authenticated:
-        return redirect('login')  # O alguna otra respuesta adecuada
-
-    # Llamamos a la función train_and_save_model con los parámetros necesarios
-    train_and_save_model(request.user, settings.MODEL_PATH, settings.LEARNING_RATE, settings.EPOCHS)
-
-    # Devuelve una respuesta HTTP, por ejemplo, redirigir a la página de inicio
-    return redirect('home')
 
 
 class HomeView(LoginRequiredMixin, View):
@@ -32,11 +22,13 @@ class HomeView(LoginRequiredMixin, View):
 
     def get(self, request, *args, **kwargs):
         logged_in_user=request.user
-
         posts = SocialPost.objects.filter(
             Q(author__profile__followers__in=[logged_in_user.id]) |
             Q(author=logged_in_user)
         ).order_by('-created_on')
+         # Aquí, analizas cada post y almacenas el resultado
+        for post in posts:
+            post.analisis_resultado = modelo.analizar_texto(post.body)
 
         form = SocialPostForm()
         share_form = ShareForm()
@@ -57,14 +49,29 @@ class HomeView(LoginRequiredMixin, View):
         if form.is_valid():
             new_post = form.save(commit=False)
             new_post.author = logged_in_user
+
+            # Aquí es donde analizas el texto de la publicación
+            texto_publicacion = new_post.body  # Asegúrate de que 'body' es el campo correcto
+            resultado_analisis = modelo.analizar_texto(texto_publicacion)
+            print(f"Resultado del análisis para la publicación: {resultado_analisis}")
+
+            # Aquí podrías decidir qué hacer con el resultado del análisis
+            # Por ejemplo, podrías almacenar este resultado en la base de datos si tu modelo SocialPost tiene un campo para ello
+
             new_post.save()
 
+            # Guardar imágenes asociadas, si las hay
             for f in files:
                 img = Image(image=f)
                 img.save()
                 new_post.image.add(img)
 
             new_post.save()
+            
+            # Enviar notificaciones a los seguidores
+            followers = logged_in_user.profile.followers.all()
+            for follower in followers:
+                notify.send(logged_in_user, recipient=follower, verb='ha creado una nueva publicación', target=new_post)
             return redirect('home')
 
         context = {

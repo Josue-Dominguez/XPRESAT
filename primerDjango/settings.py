@@ -44,7 +44,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = 'RENDER' not in os.environ
 
 ALLOWED_HOSTS = [
-    '192.168.50.85', 'localhost', '127.0.0.1'
+    '192.168.0.43', 'localhost', '127.0.0.1'
 ]
 
 RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
@@ -73,6 +73,8 @@ INSTALLED_APPS = [
     'django_browser_reload',
     'social',
     'accounts',
+
+    'notifications',
     
 
     'crispy_forms',
@@ -106,7 +108,7 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_UNIQUE = True
 AUTH_USER_MODEL="accounts.User"
 ACCOUNT_LOGOUT_ON_GET = True
-#ACCOUNT_EMAIL_VERIFICATION = "mandatory"
+ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_LOGIN_ATTEMPTS_LIMIT = 3
 ACCOUNT_LOGIN_ATTEMPTS_TIMEOUT =120
 LOGIN_REDIRECT_URL = "/"
@@ -138,6 +140,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'primerDjango.context_processors.notification_count',
             ],
         },
     },
@@ -206,16 +209,14 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-EMAIL_BACKEND='django.primerDjango.mail.backends.console.EmailBackend'
+EMAIL_BACKEND='django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_USE_TLS = env('EMAIL_USE_TLS')
 
 if not DEBUG:
-    EMAIL_BACKEND='django.primerDjango.mail.backends.smtp.EmailBackend'
-    EMAIL_HOST = env('EMAIL_HOST')
-    EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-    EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-    EMAIL_PORT = env('EMAIL_PORT')
-    EMAIL_USE_TLS = env('EMAIL_USE_TLS')
-
     SESSION_COOKIE_SECURE = True
     SECURE_BROWSER_XSS_FILTER = True
     SECURE_CONTENT_TYPE_NOSNIFF = True
