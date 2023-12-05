@@ -16,14 +16,14 @@ from .views import (
     SharedPostView,
     EncuestaView,
     LogoutView, 
-    PublicacionesRecientesView
+    UserSearch,
     )
 
 
 app_name="social"
 
 urlpatterns = [
-    path('train_model/', views.TrainModelView.as_view()),
+    #path('train_model/', views.TrainModelView.as_view()),
     path('encuesta/', EncuestaView.as_view(), name="encuesta_view"),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('post/<int:pk>/', PostDetailView.as_view(), name="post-detail"),
@@ -31,7 +31,7 @@ urlpatterns = [
     path('post/delete/<int:pk>', PostDeleteView.as_view(), name="post-delete"),
     path('post/report/<int:pk>', PostReportView.as_view(), name="post-report"),
 
-     path('publicaciones_recientes/', PublicacionesRecientesView.as_view(), name='publicaciones_recientes'),
+    #path('notifications/', NotificationView.as_view(), name='notifications'),
 
     path('post/<int:pk>/like', AddLike.as_view(), name='like'),
     path('post/<int:pk>/dislike', AddDislike.as_view(), name='dislike'),
@@ -44,6 +44,8 @@ urlpatterns = [
     path('post/<int:post_pk>/comment/<int:pk>/like', AddCommentLike.as_view(), name="comment-like"),
     path('post/<int:post_pk>/comment/<int:pk>/dislike', AddCommentDislike.as_view(), name="comment-dislike"),
     path('post/<int:post_pk>/comment/<int:pk>/reply',CommentReplyView.as_view(), name='comment-reply'),
+
+    path('search/', UserSearch.as_view(), name="profile-search"),
 
 
 ]

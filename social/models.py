@@ -8,9 +8,6 @@ User = get_user_model()
 def user_directory_path(instance, filename):
 	return 'users/socialposts/{0}'.format(filename)
 
-# def dm_directory_path(instance, filename):
-# 	return 'users/messages/{0}'.format(filename)
-
 
 class SocialPost(models.Model):
     shared_body = models.TextField(blank=True, null=True)
@@ -45,4 +42,6 @@ class SocialComment(models.Model):
 
 class Image(models.Model):
     image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
+
+
 

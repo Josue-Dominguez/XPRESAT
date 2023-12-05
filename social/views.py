@@ -1,6 +1,6 @@
 from social.forms import SocialCommentForm, ShareForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls.base import reverse_lazy
 from django.views.generic.base import View
 from .models import SocialPost, SocialComment
@@ -13,40 +13,11 @@ from django.contrib import messages
 from django.views import View
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.db.models import Q
+from accounts.models import Profile
+from notifications.signals import notify
+#from django.views.generic import TemplateView
 
-
-# Create your views here.
-class TrainModelView(View):
-    def get(self, request):
-        # Obtiene el modelo
-        model = MyModel()
-
-        # Obtiene el conjunto de datos
-        data, labels = get_dataset()
-
-        # Entrena el modelo
-        train_model(model, data, labels)
-
-        # Redirige al usuario a la página principal
-        return HttpResponseRedirect('/')
-
-
-
-class SearchView(View):
-  def get(self, request):
-    search_term = request.GET.get('search', '')
-    users = User.objects.filter(name__icontains=search_term)
-    return render(request, 'users.html', {'users': users})
-
-
-class PublicacionesRecientesView(LoginRequiredMixin, View):
-    template_name = 'pages/social/publicaciones_recientes.html'
-    #login_url = '/tu-pagina-de-login/'  # Reemplaza con tu URL de página de inicio de sesión
-
-    def get(self, request, *args, **kwargs):
-        # Obtén las publicaciones recientes del usuario actual
-        publicaciones_recientes = SocialPost.objects.filter(author=request.user).order_by('-created_on')[:10]
-        return render(request, self.template_name, {'publicaciones_recientes': publicaciones_recientes})
 
 class LogoutView(View):
     template_name = 'account/logout.html'
@@ -84,7 +55,6 @@ class PostDetailView(LoginRequiredMixin, View):
     def post(self, request, pk,*args, **kwargs):
         post = SocialPost.objects.get(pk=pk)
         form = SocialCommentForm(request.POST)
-
         comments = SocialComment.objects.filter(post=post).order_by('-created_on')
 
         if form.is_valid():
@@ -93,6 +63,10 @@ class PostDetailView(LoginRequiredMixin, View):
             new_comment.post = post
             new_comment.save()
 
+            # Envía la notificación al autor de la publicación si el comentarista no es el autor
+            if post.author != request.user:
+                notify.send(request.user, recipient=post.author, verb='ha comentado tu publicación', target=post)
+                return redirect('social:post-detail', pk=post.pk)
         context= {
             'post':post,
             'form':form,
@@ -121,6 +95,14 @@ class SharedPostView(View):
 
             new_post.save()
 
+            # Envía la notificación al autor de la publicación original si el usuario que comparte no es el autor
+            if original_post.author != request.user:
+                notify.send(
+                    request.user, 
+                    recipient=original_post.author, 
+                    verb=f'{request.user.username} ha compartido tu publicación', 
+                    target=original_post
+                )
         return redirect('home')
 
 class PostEditView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
@@ -157,30 +139,25 @@ class PostReportView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 class AddLike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
-        post = SocialPost.objects.get(pk=pk)
+        post = get_object_or_404(SocialPost, pk=pk)
 
-        is_dislike = False
-        
-        for dislike in post.dislikes.all():
-            if dislike == request.user:
-                is_dislike = True
-                break
-
-        if is_dislike:
-            post.dislikes.remove(request.user)
-
-        is_like = False
-        for like in post.likes.all():
-            if like == request.user:
-                is_like = True
-                break
-        
-        if not is_like:
+        # Verifica si el usuario ya dio like
+        if request.user in post.likes.all():
+            # Si ya le dio like, quitar el like
+            post.likes.remove(request.user)
+        else:
+            # Si no le dio like, añadir el like
             post.likes.add(request.user)
 
-        if is_like:
-            post.likes.remove(request.user)
+            # Remueve el dislike si existe
+            if request.user in post.dislikes.all():
+                post.dislikes.remove(request.user)
 
+            # Envía notificación, si no es el autor de la publicación
+            if post.author != request.user:
+                notify.send(request.user, recipient=post.author, verb=f'{request.user.username} ha dado like a tu publicación', target=post)
+
+        # Redirige a la página anterior
         next = request.POST.get('next', '/')
         return HttpResponseRedirect(next)
 
@@ -188,6 +165,16 @@ class AddLike(LoginRequiredMixin, View):
 class AddDislike(LoginRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         post = SocialPost.objects.get(pk=pk)
+
+        # Si el usuario ya le dio like, quitar el like
+        if request.user in post.likes.all():
+            post.likes.remove(request.user)
+        else:
+            # Añadir el like y enviar notificación
+            post.likes.add(request.user)
+            # Asegúrate de no enviar notificación si el usuario le da like a su propia publicación
+            if post.author != request.user:
+                notify.send(request.user, recipient=post.author, verb=f'{request.user.username} ha dado dislike a tu publicación', target=post)
 
         is_like = False
 
@@ -284,6 +271,15 @@ class CommentReplyView(LoginRequiredMixin, View):
             new_comment.parent = parent_comment
             new_comment.save()
 
+             # Envía la notificación al autor del comentario original si el que responde no es el mismo autor
+            if parent_comment.author != request.user:
+                notify.send(
+                    request.user, 
+                    recipient=parent_comment.author, 
+                    verb=f'{request.user.username} ha respondido a tu comentario', 
+                    target=post
+                )
+
         return redirect('social:post-detail', pk=post_pk)     
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
@@ -307,4 +303,15 @@ class CommentEditView(UpdateView):
     def get_success_url(self):
         pk = self.kwargs['post_pk']
         return reverse_lazy('social:post-detail', kwargs={'pk':pk})     
+    
+
+class UserSearch(View):
+    def get(self,request, *args, **kwargs):
+        query = self.request.GET.get('query')
+        profile_list = Profile.objects.filter(Q(user__username__icontains=query))
+        context={
+            'profile_list':profile_list
+        }
+        return render(request, 'pages/social/search.html', context)
+
            
