@@ -10,7 +10,7 @@
         </a>
         <div class="flex items-center justify-between space-x-1">
             {% if not user.is_authenticated %}
-            <a href="{% url 'account_login' %}" class="inline-flex items-center justify-center md:hidden p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
+            <a href="{% url 'account_login' %}" class="inline-flex items-center justify-center text-white md:hidden p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
                 <span class="mx-2 font-semibold dark:text-dark-txt">Iniciar sesion</span>
             </a>
             <a href="{% url 'account_signup' %}" class="inline-flex items-center justify-center md:hidden p-1 rounded-full hover:text-white hover:bg-blue-400 dark:hover:bg-dark-third mx-1">
@@ -18,10 +18,11 @@
             </a>
              {% else %}
 
-            <div class="relative bg-gray-100 dark:bg-dark-third px-2 py-2 w-10 h-10 sm:w-11 sm:h-11 lg:h-10 lg:w-10 xl:w-max xl:pl-3 xl:pr-8 rounded-full flex items-center justify-center cursor-pointer">
-                <i class='bx bx-search-alt-2 text-xl xl:mr-2 dark:text-dark-txt'></i>
-                <input type="text" placeholder="Buscar" class="outline-none border-none bg-transparent hidden xl:inline-block">
-            </div>
+            <form method="GET" action="{% url "social:profile-search" %}" class="mt-4 relative bg-gray-100 dark:bg-dark-third px-2 py-2 w-10 h-10 sm:w-11 sm:h-11 lg:h-10 lg:w-10 xl:w-max xl:pl-3 xl:pr-8 rounded-full flex items-center justify-center cursor-pointer">
+                <button type="submit" class='bx bx-search-alt-2 text-xl xl:mr-2 dark:text-dark-txt'></button>
+                <input name="query" value="{{ request.GET.query }}" type="text" placeholder="Buscar  Usuarios" class="outline-none border-none bg-transparent hidden xl:inline-block">
+            </form>
+
             <div class="text-2xl grid place-items-center md:hidden bg-gray-200 dark:bg-dark-third rounded-full w-10 h-10 cursor-pointer hover:bg-gray-300 dark:text-dark-txt">
                 <i class='bx bxl-messenger'></i>
             </div>
@@ -41,16 +42,28 @@
                 <i class='bx bx-home'></i>
             </a>
         </li>
-        <li class="w-1/5 md:w-max text-center">
-            <a href="#" class="w-full text-3xl py-2 text-white hover:bg-blue-900 px-3 xl:px-12 ">
-                <i class='bx bxs-user-check'></i>
-            </a>
-        </li>
-        <li class="w-1/5 md:w-max text-center">
-            <a href="#" class="w-full text-3xl py-2 px-3 text-white hover:bg-blue-900 xl:px-12">
-                <i class='bx bxs-bell'></i>
-            </a>
-        </li>
+        {% if request.user.is_authenticated %}
+            <li class="w-1/5 md:w-max text-center">
+                <a href="{% url 'accounts:followers-list' pk=request.user.profile.pk %}" class="w-full text-3xl py-2 text-white hover:bg-blue-900 px-3 xl:px-12 ">
+                    <i class='bx bxs-user-check'></i>
+                </a>
+            </li>
+        {% endif %}
+
+
+        {% if request.user.is_authenticated %}
+            <li class="relative">
+                <a href="{% url 'accounts:notifications' %}" class="w-full text-3xl py-2 px-3 text-white hover:bg-blue-900 xl:px-12 position-relative">
+                    <i class='bx bxs-bell'></i>
+                    {% if unread_notifications_count > 0 %}
+                        <span class="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                            {{ unread_notifications_count }}
+                        </span>
+                    {% endif %}
+                </a>
+            </li>
+        {% endif %}
+
 
         {%comment%}<li class="w-1/5 md:w-max text-center hidden md:inline-block">
             <button @click="open=true" class="w-full text-3xl py-2 px-3 xl:px-12 cursor-pointer text-center inline-block rounded text-gray-600 hover:bg-gray-100 dark:hover:bg-dark-third dark:text-dark-txt relative">
